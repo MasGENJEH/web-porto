@@ -11,9 +11,9 @@ const Portfolio = () => {
       title: 'Academic Sistem Information',
       category: 'Web Application',
       description: 'Information System Academic for manage student and lecturer academic data.',
-      tech: ['React', 'Tailwind CSS', 'Laravel'],
-      image: 'Main UI',
-      images: ['Login UI', 'Dashboard UI', 'Student List UI', 'Grade Input UI']
+      tech: ['React', 'Tailwind CSS', 'Laravel', 'MySQL'],
+      image: '/assets/img/dashboard-siakad.png',
+      images: ['/assets/img/login-siakad.png', '/assets/img/dashboard-siakad.png', '/assets/img/lecturer-list-siakad.png', '/assets/img/grade-input-siakad.png']
     },
     {
       id: 2,
@@ -91,10 +91,14 @@ const Portfolio = () => {
             >
               {/* Project Image Placeholder */}
               <div className="h-48 bg-secondary/10 flex items-center justify-center relative overflow-hidden">
-                <span className="text-primary/40 font-medium z-10">{project.image}</span>
+                {project.image && project.image.startsWith('/') ? (
+                  <img src={project.image} alt={project.title} className="w-full h-full object-cover z-10" />
+                ) : (
+                  <span className="text-primary/40 font-medium z-10">{project.image}</span>
+                )}
                 {/* Hover Overlay */}
                 <div className="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-20">
-                  <button 
+                  <button
                     onClick={() => setSelectedProject(project)}
                     className="px-6 py-2 bg-white text-primary rounded-full font-semibold transform -translate-y-4 group-hover:translate-y-0 transition-transform duration-300"
                   >
@@ -126,21 +130,21 @@ const Portfolio = () => {
       <AnimatePresence>
         {selectedProject && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="absolute inset-0 bg-neutral-dark/60 backdrop-blur-sm"
               onClick={() => setSelectedProject(null)}
             ></motion.div>
-            
-            <motion.div 
+
+            <motion.div
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               className="relative bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto z-10"
             >
-              <button 
+              <button
                 onClick={() => setSelectedProject(null)}
                 className="absolute top-4 right-4 w-10 h-10 bg-neutral-light rounded-full flex items-center justify-center text-neutral-dark hover:bg-light transition-colors z-20"
               >
@@ -151,23 +155,27 @@ const Portfolio = () => {
               <div className="p-8 pb-0">
                 <div className="flex gap-4 overflow-x-auto pb-4 snap-x styled-scrollbar">
                   {selectedProject.images.map((img, idx) => (
-                    <div key={idx} className="min-w-[280px] sm:min-w-[400px] h-48 sm:h-72 bg-secondary/10 flex items-center justify-center rounded-xl border border-light/30 shadow-inner shrink-0 snap-center">
-                      <span className="text-primary/40 text-xl sm:text-2xl font-bold text-center px-4">{img}</span>
+                    <div key={idx} className="min-w-[280px] sm:min-w-[400px] h-48 sm:h-72 bg-secondary/10 flex items-center justify-center rounded-xl border border-light/30 shadow-inner shrink-0 snap-center overflow-hidden">
+                      {img && img.startsWith('/') ? (
+                        <img src={img} alt={`${selectedProject.title} ${idx}`} className="w-full h-full object-cover" />
+                      ) : (
+                        <span className="text-primary/40 text-xl sm:text-2xl font-bold text-center px-4">{img}</span>
+                      )}
                     </div>
                   ))}
                 </div>
               </div>
-              
+
               <div className="p-8">
                 <span className="text-sm font-bold text-accent uppercase tracking-wider block mb-2">{selectedProject.category}</span>
                 <h3 className="text-3xl font-bold text-primary mb-4">{selectedProject.title}</h3>
-                
+
                 <p className="text-neutral-dark/80 mb-6 leading-relaxed text-lg">
                   {selectedProject.description}
-                  <br/><br/>
+                  <br /><br />
                   This project demonstrates a comprehensive understanding of modern web development practices. It features a responsive design, optimal performance, and a seamless user experience tailored to the specific needs of the target audience.
                 </p>
-                
+
                 <h4 className="text-xl font-semibold text-primary mb-3">Technologies Used</h4>
                 <div className="flex flex-wrap gap-2 mb-8">
                   {selectedProject.tech.map((t, i) => (
