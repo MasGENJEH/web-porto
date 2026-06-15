@@ -5,6 +5,13 @@ import { FiX } from 'react-icons/fi';
 const Portfolio = () => {
   const [selectedProject, setSelectedProject] = useState(null);
 
+  const resolvePath = (path) => {
+    if (typeof path === 'string' && path.startsWith('/')) {
+      return import.meta.env.BASE_URL + path.slice(1);
+    }
+    return path;
+  };
+
   const projects = [
     {
       id: 1,
@@ -92,7 +99,7 @@ const Portfolio = () => {
               {/* Project Image Placeholder */}
               <div className="h-48 bg-secondary/10 flex items-center justify-center relative overflow-hidden">
                 {project.image && project.image.startsWith('/') ? (
-                  <img src={project.image} alt={project.title} className="w-full h-full object-cover z-10" />
+                  <img src={resolvePath(project.image)} alt={project.title} className="w-full h-full object-cover z-10" />
                 ) : (
                   <span className="text-primary/40 font-medium z-10">{project.image}</span>
                 )}
@@ -157,7 +164,7 @@ const Portfolio = () => {
                   {selectedProject.images.map((img, idx) => (
                     <div key={idx} className="min-w-[280px] sm:min-w-[400px] h-48 sm:h-72 bg-secondary/10 flex items-center justify-center rounded-xl border border-light/30 shadow-inner shrink-0 snap-center overflow-hidden">
                       {img && img.startsWith('/') ? (
-                        <img src={img} alt={`${selectedProject.title} ${idx}`} className="w-full h-full object-cover" />
+                        <img src={resolvePath(img)} alt={`${selectedProject.title} ${idx}`} className="w-full h-full object-cover" />
                       ) : (
                         <span className="text-primary/40 text-xl sm:text-2xl font-bold text-center px-4">{img}</span>
                       )}
